@@ -1,0 +1,1881 @@
+[
+  {
+    "type": "integration",
+    "name": "google",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_INTEGRATION_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [],
+    "enabled_if": [],
+    "service": "google_spreadsheets"
+  },
+  {
+    "type": "choice",
+    "name": "spreadsheet",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_SPREADSHEET_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google"
+    ],
+    "enabled_if": [],
+    "source": {
+      "resource": "fields",
+      "variants": [],
+      "should_load_resource": true
+    },
+    "default_value": null,
+    "placeholder": null,
+    "render_options": {
+      "display_type": "dropdown"
+    },
+    "searchable": true,
+    "events": null
+  },
+  {
+    "type": "choice",
+    "name": "sheet",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_SHEET_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet"
+    ],
+    "enabled_if": [],
+    "source": {
+      "resource": "fields",
+      "variants": [],
+      "should_load_resource": true
+    },
+    "default_value": null,
+    "placeholder": null,
+    "render_options": {
+      "display_type": "dropdown"
+    },
+    "searchable": true,
+    "events": {
+      "init": [
+        {
+          "action_type": "fields",
+          "target_field": "record_mapping_create.with_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "columns_matching"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "user_matching_create.with_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "columns_matching"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "record_mapping_multiple_create.with_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "columns_matching_multiple"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "user_matching_multiple_create.with_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "columns_matching_multiple"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_simple[*].left_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping[*].left_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_multiple[*].left_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_create[*].left_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "columns_transfer"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_multiple_create[*].left_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "columns_transfer_multiple"
+          ],
+          "events": []
+        }
+      ],
+      "change": [
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_simple[*].left_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping[*].left_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_multiple[*].left_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet"
+          ],
+          "events": []
+        }
+      ]
+    }
+  },
+  {
+    "type": "checkbox",
+    "name": "advanced_matching_mapping",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_ADVANCED_MATCHING_MAPPING_SWITCHER_LABEL",
+    "description": null,
+    "validator": [],
+    "depends_on": [],
+    "enabled_if": [],
+    "default_value": false,
+    "title": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_ADVANCED_MATCHING_MAPPING_SWITCHER_TITLE",
+    "render_options": {
+      "display_type": "toggle"
+    }
+  },
+  {
+    "type": "choice",
+    "name": "field_type",
+    "label": "AS_ADDONS_FIELD_TYPE_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      }
+    ],
+    "source": {
+      "resource": null,
+      "variants": [
+        {
+          "value": "single",
+          "label": "AS_ADDONS_FIELD_TYPE_SINGLE_LABEL"
+        },
+        {
+          "value": "multiple",
+          "label": "AS_ADDONS_FIELD_TYPE_MULTIPLE_LABEL"
+        }
+      ],
+      "should_load_resource": true
+    },
+    "default_value": "single",
+    "placeholder": null,
+    "render_options": {
+      "display_type": "switcher"
+    },
+    "searchable": false,
+    "events": null
+  },
+  {
+    "type": "choice",
+    "name": "matching_type",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MATCHING_TYPE_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      }
+    ],
+    "source": {
+      "resource": null,
+      "variants": [
+        {
+          "value": "document",
+          "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MATCHING_TYPE_DOCUMENT_LABEL"
+        },
+        {
+          "value": "user",
+          "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MATCHING_TYPE_RECIPIENT_LABEL"
+        }
+      ],
+      "should_load_resource": true
+    },
+    "default_value": "document",
+    "placeholder": null,
+    "render_options": {
+      "display_type": "switcher"
+    },
+    "searchable": false,
+    "events": null
+  },
+  {
+    "type": "choice",
+    "name": "matching_column_type",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MATCHING_COLUMN_TYPE_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      }
+    ],
+    "source": {
+      "resource": null,
+      "variants": [
+        {
+          "value": "specify",
+          "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MATCHING_COLUMN_TYPE_SELECT_LABEL"
+        },
+        {
+          "value": "create",
+          "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MATCHING_COLUMN_TYPE_CREATE_LABEL"
+        }
+      ],
+      "should_load_resource": true
+    },
+    "default_value": "specify",
+    "placeholder": null,
+    "render_options": {
+      "display_type": "tabs"
+    },
+    "searchable": false,
+    "events": null
+  },
+  {
+    "type": "tags",
+    "name": "columns_matching",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_COLUMNS_MATCHING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "single"
+      },
+      {
+        "element": "matching_column_type",
+        "value": "create"
+      }
+    ],
+    "variables": {
+      "enabled": true,
+      "add_button_text": "ADD_PLACEHOLDER_BUTTON_TEXT",
+      "scopes": [
+        "user",
+        "time",
+        "flow",
+        "slate",
+        "fields"
+      ]
+    },
+    "subtype": "text",
+    "default_value": [],
+    "placeholder": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_COLUMNS_MATCHING_PLACEHOLDER",
+    "events": {
+      "change": [
+        {
+          "action_type": "fields",
+          "target_field": "record_mapping_create.with_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "columns_matching"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "user_matching_create.with_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "columns_matching"
+          ],
+          "events": []
+        }
+      ]
+    },
+    "item_validator": []
+  },
+  {
+    "type": "tags",
+    "name": "columns_matching_multiple",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_COLUMNS_MATCHING_LABEL",
+    "description": null,
+    "validator": [],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "multiple"
+      },
+      {
+        "element": "matching_column_type",
+        "value": "create"
+      }
+    ],
+    "variables": {
+      "enabled": true,
+      "add_button_text": "ADD_PLACEHOLDER_BUTTON_TEXT",
+      "scopes": [
+        "user",
+        "time",
+        "flow",
+        "slate",
+        "fields"
+      ]
+    },
+    "subtype": "text",
+    "default_value": [],
+    "placeholder": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_COLUMNS_MATCHING_PLACEHOLDER",
+    "events": {
+      "change": [
+        {
+          "action_type": "fields",
+          "target_field": "record_mapping_multiple_create.with_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "columns_matching_multiple"
+          ],
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "user_matching_multiple_create.with_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "columns_matching_multiple"
+          ],
+          "events": []
+        }
+      ]
+    },
+    "item_validator": []
+  },
+  {
+    "type": "match",
+    "name": "record_mapping_simple",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": false
+      }
+    ],
+    "what_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_FIELDS_LABEL",
+      "source": {
+        "resource": "fields",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "separated_dropdowns"
+      }
+    },
+    "with_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_VALUE_LABEL",
+      "placeholder": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_VALUE_PLACEHOLDER",
+      "source": {
+        "resource": "fields",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "dropdown"
+      }
+    },
+    "button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_BUTTON_TEXT",
+    "render_options": {
+      "display_type": "single",
+      "arrow_type": "single",
+      "arrow_direction": "to_fields"
+    }
+  },
+  {
+    "type": "match",
+    "name": "record_mapping",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "single"
+      },
+      {
+        "element": "matching_type",
+        "value": "document"
+      },
+      {
+        "element": "matching_column_type",
+        "value": "specify"
+      }
+    ],
+    "what_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_FIELDS_LABEL",
+      "source": {
+        "resource": "fields",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "separated_dropdowns"
+      }
+    },
+    "with_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_VALUE_LABEL",
+      "placeholder": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_VALUE_PLACEHOLDER",
+      "source": {
+        "resource": "fields",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "dropdown"
+      }
+    },
+    "button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_BUTTON_TEXT",
+    "render_options": {
+      "display_type": "single",
+      "arrow_type": "single",
+      "arrow_direction": "to_fields"
+    }
+  },
+  {
+    "type": "match",
+    "name": "record_mapping_create",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "single"
+      },
+      {
+        "element": "matching_type",
+        "value": "document"
+      },
+      {
+        "element": "matching_column_type",
+        "value": "create"
+      }
+    ],
+    "what_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_FIELDS_LABEL",
+      "source": {
+        "resource": "fields",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "separated_dropdowns"
+      }
+    },
+    "with_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_VALUE_LABEL",
+      "placeholder": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_VALUE_PLACEHOLDER",
+      "source": {
+        "resource": null,
+        "variants": [],
+        "should_load_resource": false
+      },
+      "render_options": {
+        "display_type": "dropdown"
+      }
+    },
+    "button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_BUTTON_TEXT",
+    "render_options": {
+      "display_type": "single",
+      "arrow_type": "single",
+      "arrow_direction": "to_fields"
+    }
+  },
+  {
+    "type": "match",
+    "name": "record_mapping_multiple",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_LABEL",
+    "description": null,
+    "validator": [],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "multiple"
+      },
+      {
+        "element": "matching_type",
+        "value": "document"
+      },
+      {
+        "element": "matching_column_type",
+        "value": "specify"
+      }
+    ],
+    "what_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_FIELDS_LABEL",
+      "source": {
+        "resource": "fields",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "separated_dropdowns"
+      }
+    },
+    "with_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_VALUE_LABEL",
+      "placeholder": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_VALUE_PLACEHOLDER",
+      "source": {
+        "resource": "fields",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "dropdown"
+      }
+    },
+    "button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_BUTTON_TEXT",
+    "render_options": {
+      "display_type": "single",
+      "arrow_type": "single",
+      "arrow_direction": "to_fields"
+    }
+  },
+  {
+    "type": "match",
+    "name": "record_mapping_multiple_create",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_LABEL",
+    "description": null,
+    "validator": [],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "multiple"
+      },
+      {
+        "element": "matching_type",
+        "value": "document"
+      },
+      {
+        "element": "matching_column_type",
+        "value": "create"
+      }
+    ],
+    "what_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_FIELDS_LABEL",
+      "source": {
+        "resource": "fields",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "separated_dropdowns"
+      }
+    },
+    "with_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_VALUE_LABEL",
+      "placeholder": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_VALUE_PLACEHOLDER",
+      "source": {
+        "resource": null,
+        "variants": [],
+        "should_load_resource": false
+      },
+      "render_options": {
+        "display_type": "dropdown"
+      }
+    },
+    "button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_DOC_MATCHING_BUTTON_TEXT",
+    "render_options": {
+      "display_type": "single",
+      "arrow_type": "single",
+      "arrow_direction": "to_fields"
+    }
+  },
+  {
+    "type": "match",
+    "name": "user_matching",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "single"
+      },
+      {
+        "element": "matching_type",
+        "value": "user"
+      },
+      {
+        "element": "matching_column_type",
+        "value": "specify"
+      }
+    ],
+    "what_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_WHAT_LABEL",
+      "source": {
+        "resource": "recipient",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "separated_dropdowns"
+      }
+    },
+    "with_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_WITH_LABEL",
+      "source": {
+        "resource": "fields",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "dropdown"
+      }
+    },
+    "button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_BUTTON_TEXT",
+    "render_options": {
+      "display_type": "single",
+      "arrow_type": "single",
+      "arrow_direction": "to_fields"
+    }
+  },
+  {
+    "type": "match",
+    "name": "user_matching_create",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "single"
+      },
+      {
+        "element": "matching_type",
+        "value": "user"
+      },
+      {
+        "element": "matching_column_type",
+        "value": "create"
+      }
+    ],
+    "what_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_WHAT_LABEL",
+      "source": {
+        "resource": "recipient",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "separated_dropdowns"
+      }
+    },
+    "with_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_WITH_LABEL",
+      "source": {
+        "resource": null,
+        "variants": [],
+        "should_load_resource": false
+      },
+      "render_options": {
+        "display_type": "dropdown"
+      }
+    },
+    "button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_BUTTON_TEXT",
+    "render_options": {
+      "display_type": "single",
+      "arrow_type": "single",
+      "arrow_direction": "to_fields"
+    }
+  },
+  {
+    "type": "match",
+    "name": "user_matching_multiple",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_LABEL",
+    "description": null,
+    "validator": [],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "multiple"
+      },
+      {
+        "element": "matching_type",
+        "value": "user"
+      },
+      {
+        "element": "matching_column_type",
+        "value": "specify"
+      }
+    ],
+    "what_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_WHAT_LABEL",
+      "source": {
+        "resource": "recipient",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "separated_dropdowns"
+      }
+    },
+    "with_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_WITH_LABEL",
+      "source": {
+        "resource": "fields",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "dropdown"
+      }
+    },
+    "button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_BUTTON_TEXT",
+    "render_options": {
+      "display_type": "single",
+      "arrow_type": "single",
+      "arrow_direction": "to_fields"
+    }
+  },
+  {
+    "type": "match",
+    "name": "user_matching_multiple_create",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_LABEL",
+    "description": null,
+    "validator": [],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "multiple"
+      },
+      {
+        "element": "matching_type",
+        "value": "user"
+      },
+      {
+        "element": "matching_column_type",
+        "value": "create"
+      }
+    ],
+    "what_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_WHAT_LABEL",
+      "source": {
+        "resource": "recipient",
+        "variants": []
+      },
+      "render_options": {
+        "display_type": "separated_dropdowns"
+      }
+    },
+    "with_element": {
+      "type": "choice",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_WITH_LABEL",
+      "source": {
+        "resource": null,
+        "variants": [],
+        "should_load_resource": false
+      },
+      "render_options": {
+        "display_type": "dropdown"
+      }
+    },
+    "button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_USER_MATCHING_BUTTON_TEXT",
+    "render_options": {
+      "display_type": "single",
+      "arrow_type": "single",
+      "arrow_direction": "to_fields"
+    }
+  },
+  {
+    "type": "choice",
+    "name": "mapping_column_type",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_COLUMN_TYPE_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      }
+    ],
+    "source": {
+      "resource": null,
+      "variants": [
+        {
+          "value": "specify",
+          "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_COLUMN_TYPE_SELECT_LABEL"
+        },
+        {
+          "value": "create",
+          "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_COLUMN_TYPE_CREATE_LABEL"
+        }
+      ],
+      "should_load_resource": true
+    },
+    "default_value": "specify",
+    "placeholder": null,
+    "render_options": {
+      "display_type": "tabs"
+    },
+    "searchable": false,
+    "events": null
+  },
+  {
+    "type": "tags",
+    "name": "columns_transfer",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_COLUMNS_TRANSFER_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "single"
+      },
+      {
+        "element": "mapping_column_type",
+        "value": "create"
+      }
+    ],
+    "variables": {
+      "enabled": true,
+      "add_button_text": "ADD_PLACEHOLDER_BUTTON_TEXT",
+      "scopes": [
+        "user",
+        "time",
+        "flow",
+        "slate",
+        "fields"
+      ]
+    },
+    "subtype": "text",
+    "default_value": [],
+    "placeholder": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_COLUMNS_TRANSFER_PLACEHOLDER",
+    "events": {
+      "change": [
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_create[*].left_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "columns_transfer"
+          ],
+          "events": []
+        }
+      ]
+    },
+    "item_validator": []
+  },
+  {
+    "type": "tags",
+    "name": "columns_transfer_multiple",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_COLUMNS_TRANSFER_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "multiple"
+      },
+      {
+        "element": "mapping_column_type",
+        "value": "create"
+      }
+    ],
+    "variables": {
+      "enabled": true,
+      "add_button_text": "ADD_PLACEHOLDER_BUTTON_TEXT",
+      "scopes": [
+        "user",
+        "time",
+        "flow",
+        "slate",
+        "fields"
+      ]
+    },
+    "subtype": "text",
+    "default_value": [],
+    "placeholder": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_COLUMNS_TRANSFER_PLACEHOLDER",
+    "events": {
+      "change": [
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_multiple_create[*].left_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "columns_transfer_multiple"
+          ],
+          "events": []
+        }
+      ]
+    },
+    "item_validator": []
+  },
+  {
+    "type": "mapping",
+    "name": "fields_mapping_simple",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": false
+      }
+    ],
+    "render_options": {
+      "expand": "none",
+      "removable_groups": true,
+      "add_group_button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_ADD_GROUP_BUTTON_TEXT",
+      "add_mapping_button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_BUTTON_TEXT",
+      "add_group_button_icon_type": "add_field_icon",
+      "add_mapping_button_icon_type": "add_document_icon"
+    },
+    "left_element": {
+      "type": "choice",
+      "name": "column",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_VALUE_LABEL",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "fields",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": true,
+      "events": null
+    },
+    "right_element": {
+      "type": "choice",
+      "name": "field",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_FIELDS",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "fields",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": false,
+      "events": null
+    },
+    "left_group": {
+      "type": "choice",
+      "name": "document",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_LEFT_GROUP",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "documents",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": true,
+      "events": {
+        "change": [
+          {
+            "action_type": "fields",
+            "target_field": "fields_mapping_simple[current].right_element",
+            "settings": [
+              "google",
+              "spreadsheet",
+              "sheet",
+              "fields_mapping_simple"
+            ],
+            "events": []
+          }
+        ]
+      }
+    },
+    "right_group": null,
+    "default_value": [],
+    "events": {
+      "init": [
+        {
+          "action_type": "documents",
+          "target_field": "fields_mapping_simple[*].left_group",
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_simple[current].right_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "fields_mapping_simple"
+          ],
+          "events": []
+        }
+      ]
+    },
+    "mode": "default"
+  },
+  {
+    "type": "mapping",
+    "name": "fields_mapping",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "single"
+      },
+      {
+        "element": "mapping_column_type",
+        "value": "specify"
+      }
+    ],
+    "render_options": {
+      "expand": "none",
+      "removable_groups": true,
+      "add_group_button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_ADD_GROUP_BUTTON_TEXT",
+      "add_mapping_button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_BUTTON_TEXT",
+      "add_group_button_icon_type": "add_field_icon",
+      "add_mapping_button_icon_type": "add_document_icon"
+    },
+    "left_element": {
+      "type": "choice",
+      "name": "column",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_VALUE_LABEL",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "fields",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": true,
+      "events": null
+    },
+    "right_element": {
+      "type": "choice",
+      "name": "field",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_FIELDS",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "fields",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": false,
+      "events": null
+    },
+    "left_group": {
+      "type": "choice",
+      "name": "document",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_LEFT_GROUP",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "documents",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": true,
+      "events": {
+        "change": [
+          {
+            "action_type": "fields",
+            "target_field": "fields_mapping[current].right_element",
+            "settings": [
+              "google",
+              "spreadsheet",
+              "sheet",
+              "field_type",
+              "mapping_column_type",
+              "fields_mapping"
+            ],
+            "events": []
+          }
+        ]
+      }
+    },
+    "right_group": null,
+    "default_value": [],
+    "events": {
+      "init": [
+        {
+          "action_type": "documents",
+          "target_field": "fields_mapping[*].left_group",
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping[current].right_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "mapping_column_type",
+            "fields_mapping"
+          ],
+          "events": []
+        }
+      ]
+    },
+    "mode": "default"
+  },
+  {
+    "type": "mapping",
+    "name": "fields_mapping_create",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "single"
+      },
+      {
+        "element": "mapping_column_type",
+        "value": "create"
+      }
+    ],
+    "render_options": {
+      "expand": "none",
+      "removable_groups": true,
+      "add_group_button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_ADD_GROUP_BUTTON_TEXT",
+      "add_mapping_button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_BUTTON_TEXT",
+      "add_group_button_icon_type": "add_field_icon",
+      "add_mapping_button_icon_type": "add_document_icon"
+    },
+    "left_element": {
+      "type": "choice",
+      "name": "column",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_VALUE_LABEL",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "fields",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": true,
+      "events": null
+    },
+    "right_element": {
+      "type": "choice",
+      "name": "field",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_FIELDS",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "fields",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": false,
+      "events": null
+    },
+    "left_group": {
+      "type": "choice",
+      "name": "document",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_LEFT_GROUP",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "documents",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": true,
+      "events": {
+        "change": [
+          {
+            "action_type": "fields",
+            "target_field": "fields_mapping_create[current].right_element",
+            "settings": [
+              "google",
+              "spreadsheet",
+              "sheet",
+              "field_type",
+              "mapping_column_type",
+              "fields_mapping_create"
+            ],
+            "events": []
+          }
+        ]
+      }
+    },
+    "right_group": null,
+    "default_value": [],
+    "events": {
+      "init": [
+        {
+          "action_type": "documents",
+          "target_field": "fields_mapping_create[*].left_group",
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_create[current].right_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "mapping_column_type",
+            "fields_mapping_create"
+          ],
+          "events": []
+        }
+      ]
+    },
+    "mode": "default"
+  },
+  {
+    "type": "mapping",
+    "name": "fields_mapping_multiple",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "multiple"
+      },
+      {
+        "element": "mapping_column_type",
+        "value": "specify"
+      }
+    ],
+    "render_options": {
+      "expand": "none",
+      "removable_groups": true,
+      "add_group_button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_ADD_GROUP_BUTTON_TEXT",
+      "add_mapping_button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_BUTTON_TEXT",
+      "add_group_button_icon_type": "add_field_icon",
+      "add_mapping_button_icon_type": "add_document_icon"
+    },
+    "left_element": {
+      "type": "choice",
+      "name": "column",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_VALUE_LABEL",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "fields",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": true,
+      "events": null
+    },
+    "right_element": {
+      "type": "choice",
+      "name": "field",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_FIELDS",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "fields",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": false,
+      "events": null
+    },
+    "left_group": {
+      "type": "choice",
+      "name": "document",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_LEFT_GROUP",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "documents",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": true,
+      "events": {
+        "change": [
+          {
+            "action_type": "fields",
+            "target_field": "fields_mapping_multiple[current].right_element",
+            "settings": [
+              "google",
+              "spreadsheet",
+              "sheet",
+              "field_type",
+              "mapping_column_type",
+              "fields_mapping_multiple"
+            ],
+            "events": []
+          }
+        ]
+      }
+    },
+    "right_group": null,
+    "default_value": [],
+    "events": {
+      "init": [
+        {
+          "action_type": "documents",
+          "target_field": "fields_mapping_multiple[*].left_group",
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_multiple[current].right_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "mapping_column_type",
+            "fields_mapping_multiple"
+          ],
+          "events": []
+        }
+      ]
+    },
+    "mode": "default"
+  },
+  {
+    "type": "mapping",
+    "name": "fields_mapping_multiple_create",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_LABEL",
+    "description": null,
+    "validator": [
+      "required"
+    ],
+    "depends_on": [
+      "google",
+      "spreadsheet",
+      "sheet"
+    ],
+    "enabled_if": [
+      {
+        "element": "advanced_matching_mapping",
+        "value": true
+      },
+      {
+        "element": "field_type",
+        "value": "multiple"
+      },
+      {
+        "element": "mapping_column_type",
+        "value": "create"
+      }
+    ],
+    "render_options": {
+      "expand": "none",
+      "removable_groups": true,
+      "add_group_button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_ADD_GROUP_BUTTON_TEXT",
+      "add_mapping_button_text": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_BUTTON_TEXT",
+      "add_group_button_icon_type": "add_field_icon",
+      "add_mapping_button_icon_type": "add_document_icon"
+    },
+    "left_element": {
+      "type": "choice",
+      "name": "column",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_VALUE_LABEL",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "fields",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": true,
+      "events": null
+    },
+    "right_element": {
+      "type": "choice",
+      "name": "field",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_FIELDS",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "fields",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": false,
+      "events": null
+    },
+    "left_group": {
+      "type": "choice",
+      "name": "document",
+      "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_PRE_FILL_MAPPING_LEFT_GROUP",
+      "description": null,
+      "validator": [],
+      "depends_on": [],
+      "enabled_if": [],
+      "source": {
+        "resource": "documents",
+        "variants": [],
+        "should_load_resource": false
+      },
+      "default_value": null,
+      "placeholder": null,
+      "render_options": {
+        "display_type": "dropdown"
+      },
+      "searchable": true,
+      "events": {
+        "change": [
+          {
+            "action_type": "fields",
+            "target_field": "fields_mapping_multiple_create[current].right_element",
+            "settings": [
+              "google",
+              "spreadsheet",
+              "sheet",
+              "field_type",
+              "mapping_column_type",
+              "fields_mapping_multiple_create"
+            ],
+            "events": []
+          }
+        ]
+      }
+    },
+    "right_group": null,
+    "default_value": [],
+    "events": {
+      "init": [
+        {
+          "action_type": "documents",
+          "target_field": "fields_mapping_multiple_create[*].left_group",
+          "events": []
+        },
+        {
+          "action_type": "fields",
+          "target_field": "fields_mapping_multiple_create[current].right_element",
+          "settings": [
+            "google",
+            "spreadsheet",
+            "sheet",
+            "field_type",
+            "mapping_column_type",
+            "fields_mapping_multiple_create"
+          ],
+          "events": []
+        }
+      ]
+    },
+    "mode": "default"
+  },
+  {
+    "type": "tags",
+    "name": "tags",
+    "label": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_TAGS_LABEL",
+    "description": null,
+    "validator": [],
+    "depends_on": [],
+    "enabled_if": [],
+    "variables": {
+      "enabled": true,
+      "add_button_text": "ADD_PLACEHOLDER_BUTTON_TEXT",
+      "scopes": [
+        "user",
+        "time",
+        "flow",
+        "slate",
+        "fields"
+      ]
+    },
+    "subtype": "text",
+    "default_value": [
+      "Pre-filled_from_Google_Sheet"
+    ],
+    "placeholder": "GOOGLE_SHEETS_PRE_FILL_ADD_ON_TAGS_PLACEHOLDER",
+    "events": null,
+    "item_validator": [
+      "regex:^(.{1,191})|(^{fields\\.\\w{8}-\\w{4}-\\w{4}-\\w{8}\\:.*})$",
+      "regex:([A-Za-z0-9]+)|(^{fields\\.\\w{8}-\\w{4}-\\w{4}-\\w{8}\\:.*}$)"
+    ]
+  }
+]
