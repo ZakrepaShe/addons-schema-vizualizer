@@ -1,6 +1,6 @@
 import { handleActions, createAction } from 'redux-actions';
 import { createSelector } from 'reselect';
-import {getReducerProp} from '../../utils/helpers'
+import {getReducerProp, isAinBWithComparison} from '../../utils/helpers'
 import get from "lodash/get";
 
 export const UPDATE_COMPONENTS_ARRAY = 'UPDATE_COMPONENTS_ARRAY';
@@ -94,6 +94,25 @@ export const treeStructureSelector = createSelector(
       block.enabledIf = block.enabledIf.sort(({element:el1},{element:el2})=> blockDensityMap[el2] - blockDensityMap[el1])
     });
 
+    const tree = {};
 
-    return { blocksWithConditionsBranches, conditionsMap }
+    const extendTreeByPath = (tree, path, index = 0) => {
+      if(path[index]) {
+        if (tree[path[index]]) {
+          extendTreeByPath(tree[path[index]], path, index+1)
+        } else {
+          tree[path[index]] = {};
+          extendTreeByPath(tree[path[index]], path, index+1)
+        }
+      }
+    };
+
+    if(conditionsMap[0]) {
+      Object.values(conditionsMap).forEach(condition=>{
+        const conditionPath = condition.reduce((acc,{element, value})=>([...acc,element,''+value]),[]);
+        extendTreeByPath(tree, conditionPath);
+      });
+    }
+
+    return { blocksWithConditionsBranches, conditionsMap, tree }
   });

@@ -5,6 +5,7 @@ import {Notifs} from 'redux-notifications';
 import store from './store';
 import SchemaUploader from "./components/SchemaUploader";
 import EnableIfLayers from "./pages/EnableIfLayers";
+import EnableIfTreeBranches from "./pages/EnableIfTreeBranches";
 import EnableIfTree from "./pages/EnableIfTree";
 import 'redux-notifications/lib/styles.css';
 import Grid from '@material-ui/core/Grid';
@@ -28,6 +29,15 @@ class App extends Component {
                 </Link>
               </Grid>
               <Grid item>
+                <Link to="/tree-branches">
+                  <Button
+                    variant="contained"
+                  >
+                    Tree Branches
+                  </Button>
+                </Link>
+              </Grid>
+              <Grid item>
                 <Link to="/tree">
                   <Button
                     variant="contained"
@@ -39,6 +49,7 @@ class App extends Component {
 
               <Switch>
                 <Route path="/layers" component={EnableIfLayers}/>
+                <Route path="/tree-branches" component={EnableIfTreeBranches}/>
                 <Route path="/tree" component={EnableIfTree}/>
                 <Redirect to="/layers"/>
               </Switch>

@@ -14,3 +14,7 @@ export const calculateIsVisibleBlock = (dependentBlock, blocksArray, errorCb) =>
     }
   }
 );
+
+export const isAinBWithComparison = (a, b, comparisonFunction) => a.every(
+  (...aProps) => b.find((...bProps)=>comparisonFunction(aProps,bProps))
+);
