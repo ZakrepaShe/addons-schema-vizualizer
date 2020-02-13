@@ -19,6 +19,24 @@ const useStyles = makeStyles(theme => ({
     objectFit: 'cover',
     height: 250,
   },
+  col: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  treeValues: {
+  },
+  treeValue: {
+    padding: 5,
+    border: '1px solid black',
+  },
+  treeNode: {
+    border: '1px solid black',
+  }
 }));
 
 const TreeNode = memo(({tree, blocks, layer}) => {
@@ -27,32 +45,30 @@ const TreeNode = memo(({tree, blocks, layer}) => {
 
 
   return(
-    <Grid container justify="center">
-      {Object.keys(tree).map(treeName=>
-      <Card className={classes.card}>
-        <CardContent>
-          <Grid container justify="center">
-            {
-              treeName
-                ? <Typography component="p" variant="subtitle1">
+    <div className={`treeLayer ${classes.row}`}>
+      {Object.keys(tree).map(treeName =>
+        <div className={`${classes.treeNode} ${classes.col}`}>
+          {
+            treeName
+              ? <Typography component="p" variant="subtitle1">
                   {treeName}
                 </Typography>
-                : ''
-            }
-          </Grid>
-          <Grid container justify="center">
-
+              : ''
+          }
+          <div className={`${classes.treeValues} ${classes.row}`}>
             {
               Object.keys(tree[treeName]).map(treeValue => {
                   const blocksSlice = blocks.filter(
                     ({enabledIf}) =>
                       (enabledIf[layer] && enabledIf[layer].element) === treeName
-                      && ('' + (enabledIf[layer] && enabledIf[layer].value)) === treeValue);
-                const dependentBlocks = blocksSlice.filter(
-                  ({enabledIf}) => enabledIf.length === layer+1);
+                      && ('' + (enabledIf[layer] && enabledIf[layer].value)) === treeValue
+                  );
+                  const dependentDummyBlocks = blocksSlice.filter(
+                    ({name, enabledIf, values}) => (enabledIf.length === layer + 1) && (values.length === 0)
+                  );
 
-                  return (<Grid container justify="center" direction="row">
-                    <Grid container justify="center">
+                  return (
+                    <div className={`${classes.treeValue} ${classes.col}`}>
                       {
                         treeValue
                           ? <Typography component="p" variant="body2">
@@ -60,26 +76,23 @@ const TreeNode = memo(({tree, blocks, layer}) => {
                           </Typography>
                           : ''
                       }
-                    </Grid>
-                    <Grid container justify="center" direction="column" alignItems="center">
-                      {dependentBlocks.map(({name}) =>
-                        <Typography component="p" variant="caption">
-                          {name}
-                        </Typography>
-                      )}
-                    </Grid>
-                    <Grid container justify="center">
-                      <TreeNode tree={tree[treeName][treeValue]} blocks={blocksSlice} layer={layer+1}/>
-                    </Grid>
-                  </Grid>);
+                      <div className={classes.col}>
+                        {dependentDummyBlocks.map(({name}) =>
+                          <Typography component="p" variant="caption">
+                            {name}
+                          </Typography>
+                        )}
+                      </div>
+                      <TreeNode tree={tree[treeName][treeValue]} blocks={blocksSlice} layer={layer + 1}/>
+                    </div>
+                  );
                 }
               )
             }
-          </Grid>
-        </CardContent>
-      </Card>
+          </div>
+        </div>
       )}
-    </Grid>
+    </div>
   )
 });
 
