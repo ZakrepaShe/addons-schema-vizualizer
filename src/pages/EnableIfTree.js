@@ -8,8 +8,8 @@ import Grid from '@material-ui/core/Grid';
 const EnableIfTree = ({
                                 treeStructure: {blocksWithConditionsBranches, conditionsMap, tree},
                               }) =>
-  <Grid container spacing={3}>
-    <TreeNode tree={tree} blocks={blocksWithConditionsBranches} layer={0}/>
+  <Grid container>
+    <TreeNode tree={tree} blocks={blocksWithConditionsBranches} layer={0} path={'0'}/>
   </Grid>;
 
 const mapStateToProps = state => ({
