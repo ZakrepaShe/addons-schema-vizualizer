@@ -37,10 +37,12 @@ const useStyles = makeStyles(theme => ({
     // border: '1px solid black',
   },
   treeNode: {
+    position: 'relative',
+    paddingTop: 1,
     // boxShadow: '0 0 0px 1px black',
   },
   arrowHolder: {
-    height: 20,
+    height: 40,
     position: 'relative',
     width: '100%'
   },
@@ -60,7 +62,28 @@ const useStyles = makeStyles(theme => ({
     padding: 5,
     boxShadow: '0 0 0px 1px black',
     borderRadius: 10,
-    margin: '0 5px',
+    margin: '0 5px 5px',
+  },
+  treeLayer: {
+    position: 'relative',
+  },
+  treeNodeTop: {
+    position: 'absolute',
+    borderTop: '1px solid black',
+    top: 0,
+    bottom: '100%',
+  },
+  firstNode: {
+    left: '50%',
+    right: 0,
+  },
+  lastNode: {
+    left: 0,
+    right: '50%',
+  },
+  middleNode: {
+    left: 0,
+    right: 0,
   }
 }));
 
@@ -68,7 +91,8 @@ const TreeNode = memo(({tree, blocks, layer, path}) => {
 
   const classes = useStyles();
 
-  useEffect(()=>{
+  useEffect(() => {
+    // painting arrows
     const parentElementPath = path.split('-').reverse().slice(1).reverse().join('-');
     const currentElement = document.getElementsByClassName(path)[0];
     const parentElement = document.getElementsByClassName(parentElementPath)[0];
@@ -82,6 +106,7 @@ const TreeNode = memo(({tree, blocks, layer, path}) => {
       arrow.style.position = 'absolute';
       arrow.style.display = 'flex';
       arrow.style.justifyContent = 'center';
+      arrow.style.alignItems = 'center';
       arrow.style.top = `0px`;
       arrow.style.bottom = `0px`;
       arrow.style.fontSize = `13px`;
@@ -103,16 +128,26 @@ const TreeNode = memo(({tree, blocks, layer, path}) => {
         arrow.style.right = `${middleCurrentRelativePoint}px`;
         arrow.className = classes.rightArrow;
       }
-      parentElement.appendChild(arrow)
 
+      parentElement.appendChild(arrow);
     }
   });
 
 
   return(
-    <div className={`treeLayer ${classes.row}`}>
-      {Object.keys(tree).map(treeName =>
+    <div className={`${classes.treeLayer} ${classes.row}`}>
+      {Object.keys(tree).map((treeName, treeIndex) =>
         <div className={`${classes.treeNode} ${classes.col}`} key={treeName}>
+          {/*connection joint for multiple nodes under single arrow*/}
+          <div className={`${classes.treeNodeTop} ${
+            Object.keys(tree).length > 1 && treeIndex === 0
+              ? classes.firstNode
+              : Object.keys(tree).length > 1 && treeIndex === Object.keys(tree).length - 1
+                ? classes.lastNode
+                : Object.keys(tree).length > 1
+                  ? classes.middleNode
+                  : ''
+          }`}/>
           {
             treeName
               ? <div className={classes.treeName}>
@@ -122,7 +157,9 @@ const TreeNode = memo(({tree, blocks, layer, path}) => {
                 </div>
               : ''
           }
+          {/* Element for arrows*/}
           <div className={`${classes.arrowHolder} ${path}-${treeName}`}/>
+
           <div className={`${classes.treeValues} ${classes.row}`}>
             {
               Object.keys(tree[treeName]).map(treeValue => {
